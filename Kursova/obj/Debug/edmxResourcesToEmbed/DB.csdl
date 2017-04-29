@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RepairModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Addresses">
+    <Key>
+      <PropertyRef Name="ID_Address" />
+    </Key>
+    <Property Name="ID_Address" Type="Int32" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="House_Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Room_Num" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Branches" Relationship="Self.R_3" FromRole="Addresses" ToRole="Branches" />
+    <NavigationProperty Name="Requests" Relationship="Self.R_6" FromRole="Addresses" ToRole="Requests" />
+  </EntityType>
+  <EntityType Name="Branches">
+    <Key>
+      <PropertyRef Name="ID_Branch" />
+    </Key>
+    <Property Name="ID_Branch" Type="Int32" Nullable="false" />
+    <Property Name="ID_Address" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Addresses" Relationship="Self.R_3" FromRole="Branches" ToRole="Addresses" />
+    <NavigationProperty Name="Requests" Relationship="Self.R_10" FromRole="Branches" ToRole="Requests" />
+    <NavigationProperty Name="Parts_On_Branch" Relationship="Self.R_21" FromRole="Branches" ToRole="Parts_On_Branch" />
+    <NavigationProperty Name="Employees" Relationship="Self.R_24" FromRole="Branches" ToRole="Employees" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="ID_Customer" />
+    </Key>
+    <Property Name="ID_Customer" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SurName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Requests" Relationship="Self.R_7" FromRole="Customer" ToRole="Requests" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="ID_Employee" />
+    </Key>
+    <Property Name="ID_Employee" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SurName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Job" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Date_In" Type="DateTime" Precision="0" />
+    <Property Name="Salary" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="ID_Branch" Type="Int32" />
+    <NavigationProperty Name="Branches" Relationship="Self.R_24" FromRole="Employees" ToRole="Branches" />
+    <NavigationProperty Name="Requests" Relationship="Self.R_8" FromRole="Employees" ToRole="Requests" />
+    <NavigationProperty Name="Work_Types" Relationship="Self.Employees_Types" FromRole="Employees" ToRole="Work_Types" />
+  </EntityType>
+  <EntityType Name="Need_Parts">
+    <Key>
+      <PropertyRef Name="ID_Request" />
+      <PropertyRef Name="ID_Part" />
+    </Key>
+    <Property Name="ID_Request" Type="Int32" Nullable="false" />
+    <Property Name="ID_Part" Type="Int32" Nullable="false" />
+    <Property Name="Used_Parts" Type="Int32" />
+    <NavigationProperty Name="Spare_parts" Relationship="Self.R_17" FromRole="Need_Parts" ToRole="Spare_parts" />
+    <NavigationProperty Name="Requests" Relationship="Self.R_4" FromRole="Need_Parts" ToRole="Requests" />
+  </EntityType>
+  <EntityType Name="Parts_On_Branch">
+    <Key>
+      <PropertyRef Name="ID_Branch" />
+      <PropertyRef Name="ID_Part" />
+    </Key>
+    <Property Name="ID_Branch" Type="Int32" Nullable="false" />
+    <Property Name="ID_Part" Type="Int32" Nullable="false" />
+    <Property Name="Ammount" Type="Int32" />
+    <NavigationProperty Name="Branches" Relationship="Self.R_21" FromRole="Parts_On_Branch" ToRole="Branches" />
+    <NavigationProperty Name="Spare_parts" Relationship="Self.R_23" FromRole="Parts_On_Branch" ToRole="Spare_parts" />
+  </EntityType>
+  <EntityType Name="Requests">
+    <Key>
+      <PropertyRef Name="ID_Request" />
+    </Key>
+    <Property Name="ID_Request" Type="Int32" Nullable="false" />
+    <Property Name="Serial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Date_In" Type="DateTime" Precision="3" />
+    <Property Name="Date_Out" Type="DateTime" Precision="3" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="ID_Address" Type="Int32" />
+    <Property Name="ID_Customer" Type="Int32" Nullable="false" />
+    <Property Name="ID_Employee" Type="Int32" Nullable="false" />
+    <Property Name="ID_Branch" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Addresses" Relationship="Self.R_6" FromRole="Requests" ToRole="Addresses" />
+    <NavigationProperty Name="Branches" Relationship="Self.R_10" FromRole="Requests" ToRole="Branches" />
+    <NavigationProperty Name="Customer" Relationship="Self.R_7" FromRole="Requests" ToRole="Customer" />
+    <NavigationProperty Name="Employees" Relationship="Self.R_8" FromRole="Requests" ToRole="Employees" />
+    <NavigationProperty Name="Need_Parts" Relationship="Self.R_4" FromRole="Requests" ToRole="Need_Parts" />
+  </EntityType>
+  <EntityType Name="Spare_parts">
+    <Key>
+      <PropertyRef Name="ID_Part" />
+    </Key>
+    <Property Name="ID_Part" Type="Int32" Nullable="false" />
+    <Property Name="Serial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Need_Parts" Relationship="Self.R_17" FromRole="Spare_parts" ToRole="Need_Parts" />
+    <NavigationProperty Name="Parts_On_Branch" Relationship="Self.R_23" FromRole="Spare_parts" ToRole="Parts_On_Branch" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Work_Types">
+    <Key>
+      <PropertyRef Name="ID_Type" />
+    </Key>
+    <Property Name="ID_Type" Type="Int32" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.Employees_Types" FromRole="Work_Types" ToRole="Employees" />
+  </EntityType>
+  <Association Name="R_3">
+    <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />
+    <End Role="Branches" Type="Self.Branches" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Addresses">
+        <PropertyRef Name="ID_Address" />
+      </Principal>
+      <Dependent Role="Branches">
+        <PropertyRef Name="ID_Address" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_6">
+    <End Role="Addresses" Type="Self.Addresses" Multiplicity="0..1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Addresses">
+        <PropertyRef Name="ID_Address" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Address" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_10">
+    <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="ID_Branch" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Branch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_21">
+    <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+    <End Role="Parts_On_Branch" Type="Self.Parts_On_Branch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="ID_Branch" />
+      </Principal>
+      <Dependent Role="Parts_On_Branch">
+        <PropertyRef Name="ID_Branch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_24">
+    <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="ID_Branch" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="ID_Branch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_7">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="ID_Customer" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_8">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="ID_Employee" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_17">
+    <End Role="Spare_parts" Type="Self.Spare_parts" Multiplicity="1" />
+    <End Role="Need_Parts" Type="Self.Need_Parts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Spare_parts">
+        <PropertyRef Name="ID_Part" />
+      </Principal>
+      <Dependent Role="Need_Parts">
+        <PropertyRef Name="ID_Part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_4">
+    <End Role="Requests" Type="Self.Requests" Multiplicity="1" />
+    <End Role="Need_Parts" Type="Self.Need_Parts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Requests">
+        <PropertyRef Name="ID_Request" />
+      </Principal>
+      <Dependent Role="Need_Parts">
+        <PropertyRef Name="ID_Request" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_23">
+    <End Role="Spare_parts" Type="Self.Spare_parts" Multiplicity="1" />
+    <End Role="Parts_On_Branch" Type="Self.Parts_On_Branch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Spare_parts">
+        <PropertyRef Name="ID_Part" />
+      </Principal>
+      <Dependent Role="Parts_On_Branch">
+        <PropertyRef Name="ID_Part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Employees_Types">
+    <End Role="Work_Types" Type="Self.Work_Types" Multiplicity="*" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="RepairEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="Self.Addresses" />
+    <EntitySet Name="Branches" EntityType="Self.Branches" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" />
+    <EntitySet Name="Need_Parts" EntityType="Self.Need_Parts" />
+    <EntitySet Name="Parts_On_Branch" EntityType="Self.Parts_On_Branch" />
+    <EntitySet Name="Requests" EntityType="Self.Requests" />
+    <EntitySet Name="Spare_parts" EntityType="Self.Spare_parts" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Work_Types" EntityType="Self.Work_Types" />
+    <AssociationSet Name="R_3" Association="Self.R_3">
+      <End Role="Addresses" EntitySet="Addresses" />
+      <End Role="Branches" EntitySet="Branches" />
+    </AssociationSet>
+    <AssociationSet Name="R_6" Association="Self.R_6">
+      <End Role="Addresses" EntitySet="Addresses" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_10" Association="Self.R_10">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_21" Association="Self.R_21">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Parts_On_Branch" EntitySet="Parts_On_Branch" />
+    </AssociationSet>
+    <AssociationSet Name="R_24" Association="Self.R_24">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="R_7" Association="Self.R_7">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_8" Association="Self.R_8">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_17" Association="Self.R_17">
+      <End Role="Spare_parts" EntitySet="Spare_parts" />
+      <End Role="Need_Parts" EntitySet="Need_Parts" />
+    </AssociationSet>
+    <AssociationSet Name="R_4" Association="Self.R_4">
+      <End Role="Requests" EntitySet="Requests" />
+      <End Role="Need_Parts" EntitySet="Need_Parts" />
+    </AssociationSet>
+    <AssociationSet Name="R_23" Association="Self.R_23">
+      <End Role="Spare_parts" EntitySet="Spare_parts" />
+      <End Role="Parts_On_Branch" EntitySet="Parts_On_Branch" />
+    </AssociationSet>
+    <AssociationSet Name="Employees_Types" Association="Self.Employees_Types">
+      <End Role="Work_Types" EntitySet="Work_Types" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

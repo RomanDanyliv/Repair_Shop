@@ -1,0 +1,806 @@
+﻿<Window x:Class="Kursova.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursova"
+        mc:Ignorable="d"
+        Title="RepairShop" Height="569.5" Width="831" Name="UI" Closing="UI_Closing">
+    <Grid Background="#FF525293" Margin="0,0,2,1">
+        <TabControl x:Name="tabControl1" Margin="10,40,10,10">
+            <TabItem Header="Замовлення">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+
+                    <DataGrid x:Name="GridRequests" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding}"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedRequest}" SelectionMode="Extended"
+                              SelectionUnit="FullRow" Height="354" VerticalAlignment="Top">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding ID_Request, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Серійний номер"
+                                                Binding="{Binding Serial, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Тип"
+                                                Binding="{Binding Type, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Дата подання"
+                                                Binding="{Binding Date_In, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Дата здачі"
+                                                Binding="{Binding Date_Out, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Ціна"
+                                                Binding="{Binding Price, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID адреси"
+                                                Binding="{Binding ID_Address, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID філії"
+                                                Binding="{Binding ID_Branch, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID працівника"
+                                                Binding="{Binding ID_Employee, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID замовника"
+                                                Binding="{Binding ID_Customer, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="533,32,0,0" Width="248" Height="380" VerticalAlignment="Top">
+                        <Grid Margin="-5,-1,4,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Label x:Name="reqlabel1" Content="Додати нове замовлення" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <TextBox x:Name="reqTextBox1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="reqLabel2" Content="Серійний номер" HorizontalAlignment="Left"
+                                   Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="reqLabel3" Content="Тип приладу" HorizontalAlignment="Left"
+                                   Margin="10,60,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <ComboBox x:Name="reqcomboBox" HorizontalAlignment="Left" Margin="108,64,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="reqLabel2_Copy" Content="ID філії" HorizontalAlignment="Left"
+                                   Margin="13,96,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <ComboBox x:Name="reqTextBox3" HorizontalAlignment="Left" Height="23" Margin="109,170,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="reqLabel2_Copy1" Content="ID працівника" HorizontalAlignment="Left"
+                                   Margin="11,168,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <ComboBox x:Name="reqTextBox4" HorizontalAlignment="Left" Height="23" Margin="109,206,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="reqLabel2_Copy2" Content="ID замовника" HorizontalAlignment="Left"
+                                   Margin="11,204,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="button1" Content="Додати замовлення" HorizontalAlignment="Left"
+                                    Margin="68,251,0,0" Grid.Row="1" VerticalAlignment="Top" Width="125"
+                                    Click="button1_Click" />
+                            <ComboBox x:Name="reqcomboBox2" HorizontalAlignment="Left" Margin="108,100,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1"
+                                      SelectionChanged="RelatedSelectionChanged" />
+                            <ComboBox x:Name="reqTextBox2" HorizontalAlignment="Left" Height="23" Margin="108,135,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="reqLabel5" Content="ID адреси*" HorizontalAlignment="Left"
+                                   Margin="10,133,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="reqbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="87,277,0,0" Grid.Row="1" VerticalAlignment="Top" Width="97"
+                                    Click="reqbutton2_Click" />
+                            <Label x:Name="reqLabel6" Content="* - поле може бути пустим" HorizontalAlignment="Left"
+                                   Margin="10,343,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="reqbutton3" Content="Порахувати замовлення" HorizontalAlignment="Left"
+                                    Margin="58,303,0,0" Grid.Row="1" VerticalAlignment="Top" Width="145"
+                                    IsEnabled="False" Click="reqbutton3_Click" />
+                            <Button x:Name="reqRenew" Content="X" Margin="230,0,-4,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.Row="1" />
+                        </Grid>
+                    </Border>
+                    <ComboBox x:Name="SearchcomboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox1" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="277" TextChanged="SearchTextChanged" />
+                    <Label x:Name="label" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <Button x:Name="ReqRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Запасні деталі для замовлень">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#FFE5E5E5">
+                    <Button x:Name="NeedPartsRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox3" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="282" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch3" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridNeedParts" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding }"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedNewNeedPart}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID замовлення"
+                                                Binding="{Binding id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID деталі"
+                                                Binding="{Binding part_Id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Кількість"
+                                                Binding="{Binding part_Ammount, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Назва деталі"
+                                                Binding="{Binding part_Name, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Код деталі"
+                                                Binding="{Binding part_Serial, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="527,58,0,10" Width="256">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="needPartsRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="NeedPartsLabe1" Content="Додати нову деталь для замовлення"
+                                   HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"
+                                   Grid.RowSpan="2" />
+                            <ComboBox x:Name="NeedPartsTextBox1" HorizontalAlignment="Left" Height="23"
+                                      Margin="108,29,0,0" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="NeedPartsLabe2" Content="ID деталі" HorizontalAlignment="Left"
+                                   Margin="10,60,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="NeedPartsLabe3" Content="ID замовлення" HorizontalAlignment="Left"
+                                   Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="NeedPartsButton" Content="Додати деталь" HorizontalAlignment="Left"
+                                    Margin="72,141,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="NeedPartsButton_Click" />
+                            <ComboBox x:Name="NeedPartsTextBox2" HorizontalAlignment="Left" Height="23"
+                                      Margin="108,62,0,0" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="NeedPartsLabe4" Content="Кількість деталей" HorizontalAlignment="Left"
+                                   Margin="7,96,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="NeedPartsTextBox3" HorizontalAlignment="Left" Height="24"
+                                     Margin="108,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="131"
+                                     Grid.Row="1" />
+                            <Button x:Name="NeedPartsButton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="72,176,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="NeedPartsButton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Адреси">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#FFE5E5E5">
+
+                    <Button x:Name="AddrRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox6" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox6" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="268" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch5" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridAddresses" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding }"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedAddress}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding ID_Address, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Місто"
+                                                Binding="{Binding City, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Вулиця"
+                                                Binding="{Binding Street, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Номер будинку"
+                                                Binding="{Binding House_Num, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Номер квартири"
+                                                Binding="{Binding Room_Num, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="527,58,0,10" Width="256">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="AddrRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="adrLabel0" Content="Додати нову адресу" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <TextBox x:Name="adrText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="adrLabel1" Content="Місто" HorizontalAlignment="Left" Margin="10,27,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="adrLabel3" Content="Номер будинку" HorizontalAlignment="Left"
+                                   Margin="10,97,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="adrText2" HorizontalAlignment="Left" Height="23" Margin="108,62,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="adrLabel2" Content="Вулиця" HorizontalAlignment="Left" Margin="10,60,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="adrLabel5" Content="* - поле може бути пустим" HorizontalAlignment="Left"
+                                   Margin="10,307,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="adrbutton" Content="Додати адресу" HorizontalAlignment="Left"
+                                    Margin="66,176,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="adr_Click" />
+                            <TextBox x:Name="adrText4" HorizontalAlignment="Left" Height="23" Margin="108,136,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="adrLabel6" Content="Номер квартири*" HorizontalAlignment="Left"
+                                   Margin="10,134,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="adrText3" HorizontalAlignment="Left" Height="23" Margin="108,99,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Button x:Name="adrbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="66,213,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="adrbutton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Працівники">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+
+                    <Button x:Name="EmployeeRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox7" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="267" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch6" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridEmployees" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding ''}"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding SelectedEmployee, ElementName=UI}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding ID_Employee, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Ім'я"
+                                                Binding="{Binding Name, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Прізвище"
+                                                Binding="{Binding SurName, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Номер телефону"
+                                                Binding="{Binding Phone, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Посада"
+                                                Binding="{Binding Job, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Поступив на роботу"
+                                                Binding="{Binding Date_In, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Зарплата"
+                                                Binding="{Binding Salary, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID філії"
+                                                Binding="{Binding ID_Branch, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="527,58,0,10" Width="264">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="EmpRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="empLabel0" Content="Додати нового працівника" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <TextBox x:Name="empText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="empLabel1" Content="Ім'я" HorizontalAlignment="Left" Margin="10,27,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="empLabel3" Content="Посада" HorizontalAlignment="Left" Margin="12,94,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <ComboBox x:Name="empCombo" HorizontalAlignment="Left" Margin="108,94,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <TextBox x:Name="empText2" HorizontalAlignment="Left" Height="23" Margin="108,62,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="empLabel2" Content="Прізвище" HorizontalAlignment="Left" Margin="10,60,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="empText3" HorizontalAlignment="Left" Height="23" Margin="107,182,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="empLabel4" Content="Зарплата" HorizontalAlignment="Left" Margin="9,180,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="empLabel5" Content="Філія №" HorizontalAlignment="Left" Margin="9,219,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <ComboBox x:Name="empCombo2" HorizontalAlignment="Left" Margin="107,219,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" Height="25" />
+                            <Button x:Name="button" Content="Додати працівника" HorizontalAlignment="Left"
+                                    Margin="67,261,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    Click="emp_Click" />
+                            <TextBox x:Name="empText4" HorizontalAlignment="Left" Height="23" Margin="108,136,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="empLabel6" Content="Телефон" HorizontalAlignment="Left" Margin="10,134,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="empbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="67,292,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    Click="empbutton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Види робіт">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB7D2F3" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#FFE5E5E5">
+
+                    <Button x:Name="WrkTypesRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox10" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="273" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch8" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridWorkTypes" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding }"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedWorkTypes}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding ID_Type, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Тип"
+                                                Binding="{Binding Type, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Опис"
+                                                Binding="{Binding Description, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="527,58,0,10" Width="256">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="WorksRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="workTpabel0" Content="Додати новий тип робіт" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <TextBox x:Name="workTText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="workTLabel1" Content="Тип" HorizontalAlignment="Left" Margin="10,27,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="workTLabel2" Content="Опис" HorizontalAlignment="Left" Margin="10,60,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="workTbutton" Content="Додати тип" HorizontalAlignment="Left"
+                                    Margin="66,107,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="workTbutton_Click" />
+                            <TextBox x:Name="workTText2" HorizontalAlignment="Left" Height="23" Margin="108,62,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Button x:Name="workTbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="66,143,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="workTbutton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Види робіт працівників">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="White">
+
+                    <Button x:Name="EmpWrkRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <DataGrid x:Name="GridEmployeeWorks" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding ''}"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedNewEmpWorks}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID типів"
+                                                Binding="{Binding name_id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Тип"
+                                                Binding="{Binding name, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="532,58,0,10" Width="251">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="empWorksRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="EmpWrkLabel0" Content="Додати нову тип робіт працівнику"
+                                   HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"
+                                   Grid.RowSpan="2" />
+                            <ComboBox x:Name="EmpWrkText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="EmpWrkLabel1" Content="ID працівника" HorizontalAlignment="Left"
+                                   Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="EmpWrkLabel2" Content="Тип" HorizontalAlignment="Left" Margin="10,105,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="EmpWrkbutton" Content="Додати тип" HorizontalAlignment="Left"
+                                    Margin="67,172,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="EmpWrkbutton_Click" />
+                            <ListBox x:Name="EmpWrkListBox1" HorizontalAlignment="Left" Margin="108,64,0,0"
+                                     Grid.Row="1" VerticalAlignment="Top" Width="131" Height="103">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ListBoxItem>
+                                            <CheckBox IsChecked="{Binding Checked, Mode=TwoWay}"
+                                                      Content="{Binding Label}" />
+                                        </ListBoxItem>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <Button x:Name="EmpWrkbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="67,209,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="EmpWrkbutton2_Click" />
+
+                        </Grid>
+                    </Border>
+                    <ComboBox x:Name="SearchcomboBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox2" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="262" TextChanged="SearchTextChanged" />
+                    <Label x:Name="label_Copy" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Замовники">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+
+                    <Button x:Name="CusRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox4" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="281" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch2" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridCustomers" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding}"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedCustomer}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding ID_Customer, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Ім'я"
+                                                Binding="{Binding Name, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Прізвище"
+                                                Binding="{Binding SurName, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Номер телефону"
+                                                Binding="{Binding Phone, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="530,58,0,10" Width="253">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="CusRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="CusLabel0" Content="Додати нового замовника" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <TextBox x:Name="CusText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="CusLabel1" Content="Ім'я" HorizontalAlignment="Left" Margin="10,27,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="CusLabel3" Content="Телефон" HorizontalAlignment="Left" Margin="10,97,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="CusText2" HorizontalAlignment="Left" Height="23" Margin="108,62,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="CusLabel2" Content="Прізвище" HorizontalAlignment="Left" Margin="10,60,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="Cusbutton" Content="Додати замовника" HorizontalAlignment="Left"
+                                    Margin="67,139,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="Cusbutton_Click" />
+                            <TextBox x:Name="CusText3" HorizontalAlignment="Left" Height="23" Margin="108,99,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Button x:Name="Cusbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="67,174,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="Cusbutton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Запасні деталі">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#FFFFFEFE">
+
+                    <Button x:Name="SparePartsRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox5" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="274" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch4" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridSpareParts" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding }"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedSpareParts}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding ID_Part, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Серійний номер"
+                                                Binding="{Binding Serial, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Назва"
+                                                Binding="{Binding Name, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Ціна"
+                                                Binding="{Binding Price, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="532,58,0,10" Width="251">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="SparePartsRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="SpareLabel0" Content="Додати деталь" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <TextBox x:Name="SpareText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="SpareLabel1" Content="Серійний номер" HorizontalAlignment="Left"
+                                   Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="SpareLabel3" Content="Ціна" HorizontalAlignment="Left" Margin="10,97,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="SpareText2" HorizontalAlignment="Left" Height="23" Margin="108,62,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="SpareLabel2" Content="Назва" HorizontalAlignment="Left" Margin="10,60,0,0"
+                                   VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="SpareLabel5" Content="* - поле може бути пустим" HorizontalAlignment="Left"
+                                   Margin="10,307,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="Sparebutton" Content="Додати деталь" HorizontalAlignment="Left"
+                                    Margin="66,146,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="Sparebutton_Click" />
+                            <TextBox x:Name="SpareText3" HorizontalAlignment="Left" Height="23" Margin="108,99,0,0"
+                                     TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Button x:Name="Sparebutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="66,182,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="Sparebutton2_Click" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Деталі на філіях">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#FFE5E5E5">
+
+                    <Button x:Name="PartsBranchRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox8" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox8" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="269" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch7" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridPartsOnBranch" HorizontalAlignment="Left"
+                              Margin="10,58,0,10" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding }"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedNewPartBranch}"
+                              SelectionMode="Extended" SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID філії"
+                                                Binding="{Binding id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID деталі"
+                                                Binding="{Binding part_Id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Кількість"
+                                                Binding="{Binding part_Ammount, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Назва деталі"
+                                                Binding="{Binding part_Name, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Код деталі"
+                                                Binding="{Binding part_Serial, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="527,58,0,10" Width="256">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="BranchPartsRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="PartsBrnchLabel1" Content="Додати нову деталь на філію"
+                                   HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"
+                                   Grid.RowSpan="2" />
+                            <ComboBox x:Name="PartsBrnchTextBox1" HorizontalAlignment="Left" Height="23"
+                                      Margin="108,29,0,0" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="PartsBrnchLabel2" Content="ID деталі" HorizontalAlignment="Left"
+                                   Margin="10,60,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="PartsBrnchLabel3" Content="ID філії" HorizontalAlignment="Left"
+                                   Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="PartsBrnchButton" Content="Додати деталь" HorizontalAlignment="Left"
+                                    Margin="72,141,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="PartsBrnchButton_Click" />
+                            <ComboBox x:Name="PartsBrnchTextBox2" HorizontalAlignment="Left" Height="23"
+                                      Margin="108,62,0,0" VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="PartsBrnchLabel3_Copy" Content="Кількість деталей"
+                                   HorizontalAlignment="Left" Margin="7,96,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <TextBox x:Name="PartsBrnchTextBox3" HorizontalAlignment="Left" Height="24"
+                                     Margin="108,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="131"
+                                     Grid.Row="1" />
+                            <Button x:Name="PartsBrnchButton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="72,180,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="PartsBrnchButton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Філії">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0" />
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5" />
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5" />
+                        <GradientStop Color="#FFB0CBEC" Offset="1" />
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#FFE5E5E5">
+
+                    <Button x:Name="BranchRepo" Content="Звіт" HorizontalAlignment="Left" Margin="448,34,0,0"
+                            VerticalAlignment="Top" Width="74" Click="CreateRepo_Click" />
+                    <ComboBox x:Name="SearchcomboBox9" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"
+                              Margin="10,32,0,0" SelectionChanged="SearchSelectionChanged" />
+                    <TextBox x:Name="SearchTextBox9" HorizontalAlignment="Left" Height="23" Margin="153,32,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="281" TextChanged="SearchTextChanged" />
+                    <Label x:Name="labelsearch9" Content="Пошук за:" HorizontalAlignment="Left" Margin="10,7,0,0"
+                           VerticalAlignment="Top" />
+                    <DataGrid x:Name="GridBranches" HorizontalAlignment="Left"
+                              Margin="10,58,0,0" VerticalAlignment="Top"
+                              Height="345" Width="512"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding }"
+                              CanUserAddRows="False"
+                              SelectedItem="{Binding ElementName=UI,Path=SelectedBranch}" SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="ID адреси"
+                                                Binding="{Binding adr_id, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Повна адреса"
+                                                Binding="{Binding adr, Mode=TwoWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border BorderBrush="Black" BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="531,58,0,10" Width="252">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="342*" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="BranchRenew" Content="X" Margin="226,0,0,0" VerticalAlignment="Top"
+                                    FontSize="10" Height="19" Click="RenewButton_Click" Grid.RowSpan="2" />
+                            <Label x:Name="BranchLabel0" Content="Додати філію" HorizontalAlignment="Left"
+                                   Margin="10,0,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                            <ComboBox x:Name="BranchText1" HorizontalAlignment="Left" Height="23" Margin="108,29,0,0"
+                                      VerticalAlignment="Top" Width="131" Grid.Row="1" />
+                            <Label x:Name="BranchLabel1" Content="ID адреси філії" HorizontalAlignment="Left"
+                                   Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Label x:Name="BranchLabel5" Content="* - поле може бути пустим" HorizontalAlignment="Left"
+                                   Margin="10,307,0,0" VerticalAlignment="Top" Grid.Row="1" />
+                            <Button x:Name="Branchbutton" Content="Додати філію" HorizontalAlignment="Left"
+                                    Margin="72,78,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="Branchbutton_Click" />
+                            <Button x:Name="Branchbutton2" Content="Оновити дані" HorizontalAlignment="Left"
+                                    Margin="72,113,0,0" Grid.Row="1" VerticalAlignment="Top" Width="126"
+                                    RenderTransformOrigin="0.5,0.5" Click="Branchbutton2_Click" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="label1" Content="Label" Margin="325,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"
+               Width="486"
+               HorizontalContentAlignment="Right" Foreground="DarkSeaGreen" FontSize="20" Height="41"
+               Background="Transparent" />
+        <StatusBar x:Name="statusBar" HorizontalAlignment="Left" Height="20" Margin="12,509,0,0"
+                   VerticalAlignment="Top" Width="801">
+            <TextBlock x:Name="Status" Foreground="Red" Text="" />
+        </StatusBar>
+    </Grid>
+</Window>

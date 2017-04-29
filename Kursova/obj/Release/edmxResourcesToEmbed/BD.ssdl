@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RepairModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Addresses">
+    <Key>
+      <PropertyRef Name="ID_Address" />
+    </Key>
+    <Property Name="ID_Address" Type="int" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="Street" Type="varchar" MaxLength="50" />
+    <Property Name="House_Num" Type="varchar" MaxLength="10" />
+    <Property Name="Room_Num" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Branches">
+    <Key>
+      <PropertyRef Name="ID_Branch" />
+    </Key>
+    <Property Name="ID_Branch" Type="int" Nullable="false" />
+    <Property Name="ID_Address" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="ID_Customer" />
+    </Key>
+    <Property Name="ID_Customer" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="SurName" Type="varchar" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="ID_Employee" />
+    </Key>
+    <Property Name="ID_Employee" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="SurName" Type="varchar" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" MaxLength="10" />
+    <Property Name="Job" Type="varchar" MaxLength="50" />
+    <Property Name="Date_In" Type="date" />
+    <Property Name="Salary" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="ID_Branch" Type="int" />
+  </EntityType>
+  <EntityType Name="Employees_Types">
+    <Key>
+      <PropertyRef Name="ID_Employee" />
+      <PropertyRef Name="ID_Type" />
+    </Key>
+    <Property Name="ID_Employee" Type="int" Nullable="false" />
+    <Property Name="ID_Type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Need_Parts">
+    <Key>
+      <PropertyRef Name="ID_Request" />
+      <PropertyRef Name="ID_Part" />
+    </Key>
+    <Property Name="ID_Request" Type="int" Nullable="false" />
+    <Property Name="ID_Part" Type="int" Nullable="false" />
+    <Property Name="Used_Parts" Type="int" />
+  </EntityType>
+  <EntityType Name="Parts_On_Branch">
+    <Key>
+      <PropertyRef Name="ID_Branch" />
+      <PropertyRef Name="ID_Part" />
+    </Key>
+    <Property Name="ID_Branch" Type="int" Nullable="false" />
+    <Property Name="ID_Part" Type="int" Nullable="false" />
+    <Property Name="Ammount" Type="int" />
+  </EntityType>
+  <EntityType Name="Requests">
+    <Key>
+      <PropertyRef Name="ID_Request" />
+    </Key>
+    <Property Name="ID_Request" Type="int" Nullable="false" />
+    <Property Name="Serial" Type="varchar" MaxLength="50" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Date_In" Type="datetime" />
+    <Property Name="Date_Out" Type="datetime" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="ID_Address" Type="int" />
+    <Property Name="ID_Customer" Type="int" Nullable="false" />
+    <Property Name="ID_Employee" Type="int" Nullable="false" />
+    <Property Name="ID_Branch" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Spare_parts">
+    <Key>
+      <PropertyRef Name="ID_Part" />
+    </Key>
+    <Property Name="ID_Part" Type="int" Nullable="false" />
+    <Property Name="Serial" Type="varchar" MaxLength="50" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Work_Types">
+    <Key>
+      <PropertyRef Name="ID_Type" />
+    </Key>
+    <Property Name="ID_Type" Type="int" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="100" />
+    <Property Name="Description" Type="text" />
+  </EntityType>
+  <Association Name="R_10">
+    <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="ID_Branch" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Branch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_17">
+    <End Role="Spare_parts" Type="Self.Spare_parts" Multiplicity="1" />
+    <End Role="Need_Parts" Type="Self.Need_Parts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Spare_parts">
+        <PropertyRef Name="ID_Part" />
+      </Principal>
+      <Dependent Role="Need_Parts">
+        <PropertyRef Name="ID_Part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_19">
+    <End Role="Work_Types" Type="Self.Work_Types" Multiplicity="1" />
+    <End Role="Employees_Types" Type="Self.Employees_Types" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Work_Types">
+        <PropertyRef Name="ID_Type" />
+      </Principal>
+      <Dependent Role="Employees_Types">
+        <PropertyRef Name="ID_Type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_21">
+    <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+    <End Role="Parts_On_Branch" Type="Self.Parts_On_Branch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="ID_Branch" />
+      </Principal>
+      <Dependent Role="Parts_On_Branch">
+        <PropertyRef Name="ID_Branch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_23">
+    <End Role="Spare_parts" Type="Self.Spare_parts" Multiplicity="1" />
+    <End Role="Parts_On_Branch" Type="Self.Parts_On_Branch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Spare_parts">
+        <PropertyRef Name="ID_Part" />
+      </Principal>
+      <Dependent Role="Parts_On_Branch">
+        <PropertyRef Name="ID_Part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_24">
+    <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branches">
+        <PropertyRef Name="ID_Branch" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="ID_Branch" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_3">
+    <End Role="Addresses" Type="Self.Addresses" Multiplicity="1" />
+    <End Role="Branches" Type="Self.Branches" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Addresses">
+        <PropertyRef Name="ID_Address" />
+      </Principal>
+      <Dependent Role="Branches">
+        <PropertyRef Name="ID_Address" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_4">
+    <End Role="Requests" Type="Self.Requests" Multiplicity="1" />
+    <End Role="Need_Parts" Type="Self.Need_Parts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Requests">
+        <PropertyRef Name="ID_Request" />
+      </Principal>
+      <Dependent Role="Need_Parts">
+        <PropertyRef Name="ID_Request" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_6">
+    <End Role="Addresses" Type="Self.Addresses" Multiplicity="0..1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Addresses">
+        <PropertyRef Name="ID_Address" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Address" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_7">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="ID_Customer" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_8">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="ID_Employee" />
+      </Principal>
+      <Dependent Role="Requests">
+        <PropertyRef Name="ID_Employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_9">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="Employees_Types" Type="Self.Employees_Types" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="ID_Employee" />
+      </Principal>
+      <Dependent Role="Employees_Types">
+        <PropertyRef Name="ID_Employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RepairModelStoreContainer">
+    <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Branches" EntityType="Self.Branches" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees_Types" EntityType="Self.Employees_Types" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Need_Parts" EntityType="Self.Need_Parts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Parts_On_Branch" EntityType="Self.Parts_On_Branch" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Spare_parts" EntityType="Self.Spare_parts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Work_Types" EntityType="Self.Work_Types" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="R_10" Association="Self.R_10">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_17" Association="Self.R_17">
+      <End Role="Spare_parts" EntitySet="Spare_parts" />
+      <End Role="Need_Parts" EntitySet="Need_Parts" />
+    </AssociationSet>
+    <AssociationSet Name="R_19" Association="Self.R_19">
+      <End Role="Work_Types" EntitySet="Work_Types" />
+      <End Role="Employees_Types" EntitySet="Employees_Types" />
+    </AssociationSet>
+    <AssociationSet Name="R_21" Association="Self.R_21">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Parts_On_Branch" EntitySet="Parts_On_Branch" />
+    </AssociationSet>
+    <AssociationSet Name="R_23" Association="Self.R_23">
+      <End Role="Spare_parts" EntitySet="Spare_parts" />
+      <End Role="Parts_On_Branch" EntitySet="Parts_On_Branch" />
+    </AssociationSet>
+    <AssociationSet Name="R_24" Association="Self.R_24">
+      <End Role="Branches" EntitySet="Branches" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="R_3" Association="Self.R_3">
+      <End Role="Addresses" EntitySet="Addresses" />
+      <End Role="Branches" EntitySet="Branches" />
+    </AssociationSet>
+    <AssociationSet Name="R_4" Association="Self.R_4">
+      <End Role="Requests" EntitySet="Requests" />
+      <End Role="Need_Parts" EntitySet="Need_Parts" />
+    </AssociationSet>
+    <AssociationSet Name="R_6" Association="Self.R_6">
+      <End Role="Addresses" EntitySet="Addresses" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_7" Association="Self.R_7">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_8" Association="Self.R_8">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Requests" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="R_9" Association="Self.R_9">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Employees_Types" EntitySet="Employees_Types" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

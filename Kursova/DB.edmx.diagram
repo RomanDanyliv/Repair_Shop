@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2043205c06864cf5b856d5aa9a051810" Name="Diagram1">
+        <EntityTypeShape EntityType="RepairModel.Addresses" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Branches" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Customer" Width="1.5" PointX="8.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Employees" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Need_Parts" Width="1.5" PointX="12.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Parts_On_Branch" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Requests" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Spare_parts" Width="1.5" PointX="10.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepairModel.Work_Types" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="RepairModel.R_3" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_6" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_10" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_21" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_24" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_7" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_8" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_17" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_4" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.R_23" ManuallyRouted="false" />
+        <AssociationConnector Association="RepairModel.Employees_Types" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
